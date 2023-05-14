@@ -16,6 +16,9 @@ public class InsanKaynaklari {
 		this.severanceService = severanceService;
 		this.employees = new ArrayList<Calisan>();
 		this.projeler = new ArrayList<Proje>();
+		employees = new Calisan().Calisan_Oku(employees);
+		projeler = new Proje().Proje_Oku(projeler);
+		
 	}
 
 	public InsanKaynaklari() {
@@ -26,14 +29,43 @@ public class InsanKaynaklari {
 		employees.add(employee);
 	}
 	
-	public void assignEmployeeToProject(Proje proje, Calisan calisan) {
-		for(Proje p : projeler ) {
-			if (p.getProjeId()==proje.getProjeId())
-				proje.addEmployee(calisan);
-			else
-				System.out.println("Proje Bulunamadý");
+	public int assignEmployeeToProject() {
+		int i=0;
+		int j=0;
+		while( projeler.get(i) != null
+				&& projeler.get(i).getMinRequiredEmployeeCount()<= projeler.get(i).getEmployees().size()) {
+			i++;
 		}
+		
+		if(projeler.get(i) != null) {
+			while( employees.get(j) != null && employees.get(i).getProjeler().size()!= 0) {
+				j++;
+			}
+			if(employees.get(j) != null) {
+				projeler.get(i).addEmployee(employees.get(j));
+				employees.get(j).addProject(projeler.get(i));
+			}
+		}else {
+			i=0;
+			while( projeler.get(i) != null
+					&& projeler.get(i).getMaxRequiredEmployeeCount()>= projeler.get(i).getEmployees().size()) {
+				i++;
+			}
+			if(projeler.get(i) != null) {
+				j=0;
+				while( employees.get(j) != null && employees.get(i).getProjeler().size()!= 0) {
+					j++;
+				}
+				if(employees.get(j) != null) {
+					projeler.get(i).addEmployee(employees.get(j));
+					employees.get(j).addProject(projeler.get(i));
+				}
+			}
+		}
+		return 0;
 	}
+	
+	
 	
 	public void layoffEmployee(Calisan employee) {
 		employees.remove(employee);

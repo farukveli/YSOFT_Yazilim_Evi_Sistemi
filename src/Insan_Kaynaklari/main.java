@@ -19,7 +19,10 @@ public class main {
             System.out.println("Baðlantý Hatasý!!!");
             e.printStackTrace();
         }
-		
-	}
 
+    	Login login = new Login(con.getConnection());
+        login.setVisible(true);
+	}
+	
+	
 }
