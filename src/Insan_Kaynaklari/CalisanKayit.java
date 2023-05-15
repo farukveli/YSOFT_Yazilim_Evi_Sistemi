@@ -108,9 +108,15 @@ public class CalisanKayit extends JFrame {
 		
 		JLabel uyari = new JLabel("");
 		uyari.setHorizontalAlignment(SwingConstants.CENTER);
-		uyari.setFont(new Font("Ubuntu", Font.BOLD, 16));
-		uyari.setBounds(10, 52, 364, 50);
+		uyari.setFont(new Font("Ubuntu", Font.BOLD, 14));
+		uyari.setBounds(10, 11, 364, 44);
 		panel.add(uyari);
+		
+		JLabel uyari_1 = new JLabel("");
+		uyari_1.setHorizontalAlignment(SwingConstants.CENTER);
+		uyari_1.setFont(new Font("Ubuntu", Font.BOLD, 14));
+		uyari_1.setBounds(10, 60, 364, 44);
+		panel.add(uyari_1);
 		
 		JButton kaydet = new JButton("Kaydet");
 		kaydet.addActionListener(new ActionListener() {
@@ -126,17 +132,19 @@ public class CalisanKayit extends JFrame {
 					}else if(position.getSelectedIndex()==4) {
 						pozisyon ="Programcý";
 					}
-					int durum= new Calisan().Calisan_Ekle(c, isim.getText()+" "+ soyisim.getText(), pozisyon, muhasebe.getSelectedIndex());
-					int durum2 =new InsanKaynaklari().assignEmployeeToProject();
-					if(durum==0) {
-						uyari.setText(isim.getText() + soyisim.getText() +" Ýsimli Çalýþan Kaydedildi");
-						uyari.setForeground(Color.CYAN);
-						uyari.setVisible(true);
-						isim.setText("");
-						soyisim.setText("");
-						position.setSelectedIndex(0);
-						muhasebe.setSelectedIndex(0);
-					}
+					String proje_adi= new Calisan().Calisan_Ekle(c, isim.getText()+" "+ soyisim.getText(), pozisyon, muhasebe.getSelectedIndex());
+					
+					uyari.setText(isim.getText()+" "+ soyisim.getText() +" Ýsimli Çalýþan Kaydedildi");
+					uyari.setForeground(Color.CYAN);
+					uyari.setVisible(true);
+					uyari_1.setText(proje_adi);
+					uyari_1.setText("Atandýðý Proje= "+proje_adi);
+					uyari_1.setForeground(Color.CYAN);
+					uyari_1.setVisible(true);
+					isim.setText("");
+					soyisim.setText("");
+					position.setSelectedIndex(0);
+					muhasebe.setSelectedIndex(0);
 				} catch (Exception e1 ) {
 					uyari.setText("Lütfen Bütün Alanlarý Doldurunuz!!!");
 					uyari.setForeground(Color.RED);
@@ -152,6 +160,8 @@ public class CalisanKayit extends JFrame {
 		JButton geri_don = new JButton("Geri D\u00F6n");
 		geri_don.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				uyari.setText("");
+				uyari_1.setText("");
 				panel.setVisible(false);
 				AnaMenu.setVisible(true);
 			}
@@ -162,6 +172,8 @@ public class CalisanKayit extends JFrame {
 		geri_don.setBounds(237, 457, 116, 40);
 		panel.add(geri_don);
 		
+		
+		
 	}
 	
 	public JPanel getPanel() {
@@ -171,6 +183,4 @@ public class CalisanKayit extends JFrame {
 	public void setPanel(JPanel panel) {
 		this.panel = panel;
 	}
-
-	
 }

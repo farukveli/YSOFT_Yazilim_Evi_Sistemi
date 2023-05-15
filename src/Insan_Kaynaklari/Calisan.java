@@ -26,21 +26,44 @@ public class Calisan {
 		projeler = new ArrayList<Proje>();
 	}
 	
-	public int Calisan_Ekle(Connection conn, String isim, String position, int muhasebe) {
+	public String Calisan_Ekle(Connection conn, String isim, String position, int muhasebe) {
 		int durum;
-
+		String query;
+		String proje_adi=new String();
+		int id;
+		PreparedStatement statement;
+		Statement s;
+		ResultSet r;
 		try {
-			String query;
 			query ="INSERT INTO calisan VALUES (nextval('calisan_id'),?,?,?)";
-			
-			PreparedStatement statement = conn.prepareStatement(query);
+
+			statement = conn.prepareStatement(query);
 			statement.setString(1, isim);
 			statement.setString(2, position);
 			statement.setInt(3, muhasebe);
 			statement.execute();
 			durum=0;
 			
-		}catch(PSQLException e) {
+
+			query = "SELECT id from calisan where isim='"+isim+"' and pozisyon='"+position+"' and muhasebe= "+muhasebe;
+			s = conn.createStatement();
+			r=s.executeQuery(query);
+			r.next();
+			id=r.getInt(1);
+
+			
+			
+			query="SELECT assignEmployee("+id+")";
+			statement = conn.prepareStatement(query);
+			statement.execute();
+			
+			query = "SELECT p.isim from proje p,calisan_proje cp where calisan_id="+id+" and p.id = cp.proje_id";
+			s = conn.createStatement();
+			r=s.executeQuery(query);
+			r.next();
+			proje_adi=r.getString(1);
+			
+		} catch(PSQLException e) {
 			durum=-1;
 		}
 		catch (SQLException e) {
@@ -49,8 +72,7 @@ public class Calisan {
 		catch (java.lang.NullPointerException e) {
 			durum=-3;
 		}
-		
-		return durum;
+		return proje_adi;
 	}
 	
 	public ArrayList<Calisan> Calisan_Oku(ArrayList<Calisan> l) {

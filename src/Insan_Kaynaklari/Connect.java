@@ -11,10 +11,7 @@ public class Connect {
             
             con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbname, user, pass);
 
-            if(con != null)
-                System.out.println("Connected!");
-            else
-                System.out.println("Not Connected!");
+
         }
 
         catch (Exception e) {

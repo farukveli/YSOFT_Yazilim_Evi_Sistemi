@@ -121,6 +121,7 @@ public class ProjeKayit extends JFrame {
 		JButton geri_don = new JButton("Geri D\u00F6n");
 		geri_don.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				uyari.setText("");
 				panel.setVisible(false);
 				AnaMenu.setVisible(true);
 			}
